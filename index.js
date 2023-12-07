@@ -28,8 +28,9 @@ while (true) {
   }
   res.sort((l,j)=>l-j)
   let str = res.join(",");
-  console.log("选号",str)
-  if (b && str == "1,3,5,7,10,22,28,30,38,40,46,50,52,53,56,58,62,69,71,80") {
+  // console.log("选号",str)
+  if (b && str == "9,10,11,16,18,21,22,27,28,30,33,39,46,49,50,51,61,64,67,79") {
+    console.log("current",current)
     b = false;
   } else if (!b) {
     console.log("快乐8出号拉", res);

@@ -1,14 +1,19 @@
 const ESLintPlugin = require("eslint-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
+const path = require("path");
 module.exports = {
   entry: "./src/main.js",
   output: {
-    path: undefined,
+    path: path.resolve(__dirname, "../dist"),
     chunkFilename: "out/js/[name].[hash:10].js",
     filename: "out/js/[name].[hash:10].js",
     assetMoudleFilename: "out/images/[hash:10][ext][query]",
+    clean: true,
   },
   module: {
     rules: [
@@ -16,7 +21,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          "vue-style-loader",
+          MiniCssExtractPlugin.loader,
           "css-loader",
           {
             loader: "postcss-loader",
@@ -32,7 +37,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/,
         use: [
-          "vue-style-loader",
+          MiniCssExtractPlugin.loader,
           "css-loader",
           {
             loader: "postcss-loader",
@@ -66,9 +71,8 @@ module.exports = {
       },
       {
         test: /\.m?js$/,
-        include: path.resolve(__dirname, "../src"),
         use: {
-        
+          include: path.resolve(__dirname, "../src"),
           loader: "babel-loader",
           options: {
             cacheDirectory: true,
@@ -78,10 +82,6 @@ module.exports = {
       },
     ],
   },
-  resolve: {
-    // 将 `.ts` 添加为一个可解析的扩展名。
-    extensions: ['vue','.ts','.js']
-  },
   // 插件
   plugins: [
     new ESLintPlugin({
@@ -90,13 +90,25 @@ module.exports = {
       cache: true,
     }),
     new HtmlWebpackPlugin({
-      title: "vue 脚手架",
       template: path.resolve(__dirname, "../public/index.html"),
+    }),
+    new MiniCssExtractPlugin({
+      filename: "static/css/[name].[contenthash:10].css",
+      chunkFilename: "static/css/[name].[contenthash].chunk.css",
+    }),
+    new CopyPlugin({
+      patterns: [{ from: "public", to: "dist" }],
+      globOptions: {
+        ignore: ["**/index.html"],
+      },
     }),
     new VueLoaderPlugin(),
   ],
-  mode: "development",
-  devtool: "cheap-module-source-map",
+  resolve: {
+    // 将 `.ts` 添加为一个可解析的扩展名。
+    extensions: ['vue','.ts','.js']
+  },
+  mode: "production",
   optimization: {
     splitChunk: {
       chunks: "all",
@@ -104,10 +116,11 @@ module.exports = {
     runtimeChunk: {
       name: (entrypoint) => `runtime~${entrypoint.name}`,
     },
-  },
-  devServer: {
-    historyApiFallback: true,
-    port: 8080,
-    hot: true,
+    minimizer: [
+      new CssMinimizerPlugin({
+        parallel: true,
+      }),
+      new TerserPlugin({ parallel: true }),
+    ],
   },
 };
