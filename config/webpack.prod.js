@@ -10,9 +10,9 @@ module.exports = {
   entry: "./src/main.js",
   output: {
     path: path.resolve(__dirname, "../dist"),
-    chunkFilename: "out/js/[name].[hash:10].js",
-    filename: "out/js/[name].[hash:10].js",
-    assetMoudleFilename: "out/images/[hash:10][ext][query]",
+    chunkFilename: "js/[name].[contenthash:10].js",
+    filename: "js/[name].[contenthash:10].js",
+    assetModuleFilename: "img/[contenthash:10][ext][query]",
     clean: true,
   },
   module: {
@@ -71,8 +71,8 @@ module.exports = {
       },
       {
         test: /\.m?js$/,
+        include: path.resolve(__dirname, "../src"),
         use: {
-          include: path.resolve(__dirname, "../src"),
           loader: "babel-loader",
           options: {
             cacheDirectory: true,
@@ -93,24 +93,29 @@ module.exports = {
       template: path.resolve(__dirname, "../public/index.html"),
     }),
     new MiniCssExtractPlugin({
-      filename: "static/css/[name].[contenthash:10].css",
-      chunkFilename: "static/css/[name].[contenthash].chunk.css",
+      filename: "css/[name].[contenthash:10].css",
+      chunkFilename: "css/[name].[contenthash].chunk.css",
     }),
     new CopyPlugin({
-      patterns: [{ from: "public", to: "dist" }],
-      globOptions: {
-        ignore: ["**/index.html"],
-      },
+      patterns: [
+        {
+          from: path.resolve(__dirname,"../public"),
+          to: path.resolve(__dirname,"../dist"),
+          globOptions: {
+            ignore: ["**/index.html"],
+          },
+        },
+      ],
     }),
     new VueLoaderPlugin(),
   ],
   resolve: {
     // 将 `.ts` 添加为一个可解析的扩展名。
-    extensions: ['vue','.ts','.js']
+    extensions: [".vue", ".ts", ".js"],
   },
   mode: "production",
   optimization: {
-    splitChunk: {
+    splitChunks: {
       chunks: "all",
     },
     runtimeChunk: {

@@ -4,8 +4,8 @@
   "description": "自定义vue的webpack脚手架",
   "main": "index.js",
   "scripts": {
-    "serve": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.dev.js",
-    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.prod.js"
+    "serve": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "url": "https://github.com/tsoil/vue-webpack/issues"
   },
   "homepage": "https://github.com/tsoil/vue-webpack#readme",
-  "browserlist": [
+  "browserslist": [
     "> 1%",
     "last 2 version",
     "not dead"

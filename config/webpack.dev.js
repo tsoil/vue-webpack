@@ -8,7 +8,7 @@ module.exports = {
     path: undefined,
     chunkFilename: "out/js/[name].[hash:10].js",
     filename: "out/js/[name].[hash:10].js",
-    assetMoudleFilename: "out/images/[hash:10][ext][query]",
+    assetModuleFilename: "out/images/[hash:10][ext][query]",
   },
   module: {
     rules: [
@@ -80,7 +80,7 @@ module.exports = {
   },
   resolve: {
     // 将 `.ts` 添加为一个可解析的扩展名。
-    extensions: ['vue','.ts','.js']
+    extensions: ['.vue','.ts','.js']
   },
   // 插件
   plugins: [
@@ -98,7 +98,7 @@ module.exports = {
   mode: "development",
   devtool: "cheap-module-source-map",
   optimization: {
-    splitChunk: {
+    splitChunks: {
       chunks: "all",
     },
     runtimeChunk: {
