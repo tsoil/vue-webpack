@@ -144,7 +144,7 @@ module.exports = {
       chunks: "all", // 提取公用模块，包括异步和非异步共享
     },
     runtimeChunk: {
-      name: (entrypoint) => `runtime~${entrypoint.name}`, // 修改运行时的名称
+      name: (entrypoint) => `runtime~${entrypoint.name}`, // 将运行时代码拆分，并修改运行时的名称
     },
     minimizer: getMinimizer(),
   },
