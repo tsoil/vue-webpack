@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TestPugin = require("../myplugin/test.js")
 module.exports = {
   mode: "production",
   entry: "./src/loadtest.js",
@@ -24,5 +25,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "my loader",
     }),
+    new TestPugin({
+      author:'dengy'
+    })
   ],
 };

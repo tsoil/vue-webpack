@@ -57,11 +57,10 @@
 // }
 const cluster = require("cluster");
 const fs = require("fs");
-
 if (cluster.isPrimary) {
   for (let i = 0; i < 4; i++) {
-    let w=cluster.fork();
-    w.on('message', (message) => {
+    let w = cluster.fork();
+    w.on("message", (message) => {
       fs.appendFile("mac.txt", message + "\n", (err) => {
         if (err) {
           console.log(err);
@@ -74,10 +73,9 @@ if (cluster.isPrimary) {
   console.log("开启线程", process.pid);
 
   function randomSortArray(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
+    const j = Math.floor(Math.random() * arr.length);
+    const i = Math.floor(Math.random() * arr.length);
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 
   let b = true;
@@ -110,7 +108,7 @@ if (cluster.isPrimary) {
     }
     res.sort((l, j) => l - j);
     let str = res.join(",");
-    if (process.pid==1) {
+    if (process.pid == 1) {
       fs.appendFile("mac.txt", str + "\n", (err) => {
         if (err) {
           console.log(err);
@@ -118,11 +116,7 @@ if (cluster.isPrimary) {
       });
     }
     process.send(str);
-    if (
-      b &&
-      str ==
-        "11,13,15,22,23,25,28,33,34,41,44,45,49,55,58,59,63,69,72,80"
-    ) {
+    if (b && str == "2,3,4,6,7,17,19,31,38,39,40,42,46,50,54,59,61,63,66,80") {
       process.send(current);
       b = false;
     } else if (!b) {

@@ -6,7 +6,8 @@
   "scripts": {
     "serve": "cross-env NODE_ENV=development webpack serve --config ./config/webpack.config.js",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack.config.js",
-    "test:loader": "cross-env NODE_ENV=production webpack --config ./config/webpack.test.js"
+    "test:loader": "cross-env NODE_ENV=production webpack --config ./config/webpack.test.js",
+    "debug": "node --inspect-brk ./node_modules/webpack-cli/bin/cli.js"
   },
   "repository": {
     "type": "git",

@@ -70,7 +70,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          isDevelopment ? "style-css" : MiniCssExtractPlugin.loader,
+          isDevelopment ? "vue-style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
           {
             loader: "postcss-loader",
@@ -86,7 +86,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/,
         use: [
-          isDevelopment ? "style-css" : MiniCssExtractPlugin.loader,
+          isDevelopment ? "vue-style-loader" : MiniCssExtractPlugin.loader,
           "css-loader",
           {
             loader: "postcss-loader",
@@ -136,7 +136,7 @@ module.exports = {
   },
   // 插件
   plugins: getPlugins(),
-  mode: "production",
+  mode: isDevelopment?'development':"production",
   devtool: isDevelopment ? "cheap-module-source-map" : false,
   optimization: {
     // 分块
